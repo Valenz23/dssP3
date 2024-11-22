@@ -51,7 +51,7 @@ class MainActivity : ComponentActivity() {
         recyclerView = findViewById(R.id.recyclerViewProducts)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        productAdapter =ProductAdapter(sampleProducts)
+        productAdapter = ProductAdapter(sampleProducts)
         recyclerView.adapter = productAdapter
 
         //Ecsample API Cal
