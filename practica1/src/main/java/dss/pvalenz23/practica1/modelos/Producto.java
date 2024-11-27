@@ -23,4 +23,34 @@ public class Producto {
         this.nombre = nombre;
         this.precio = precio;
     }
+    
+    public Producto() {
+    	
+    }
+    
+	public void setNombre(String nombre2) {
+		this.nombre = nombre2;
+	}
+
+	public void setPrecio(double precio2) {
+		this.precio = precio2;
+	}
+	
+	public void setId(Long id2) {
+		this.id = id2;
+	}
+	
+	public Long getId() {
+		return this.id;
+	}
+	
+	public String getNombre() {
+		return this.nombre;
+	}
+	
+	public double getPrecio() {
+		return this.precio;
+	}
+	
+	
 }
