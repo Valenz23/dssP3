@@ -16,12 +16,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.practica3.api.ApiClient
 import com.example.practica3.api.ApiService
-import com.example.practica3.api.Product
+import com.example.practica3.api.Producto
 import com.example.practica3.api.ProductAdapter
 import com.example.practica3.ui.theme.Practica3Theme
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.InputStreamReader
 
 class MainActivity : ComponentActivity() {
 
@@ -32,32 +35,15 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        /*
-        enableEdgeToEdge()
-        setContent {
-            Practica3Theme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
-            }
-        }
-        */
-
         setContentView(R.layout.activity_main)
 
         recyclerView = findViewById(R.id.recyclerViewProducts)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        productAdapter = ProductAdapter(sampleProducts)
-        recyclerView.adapter = productAdapter
+        // muestra la lista de productos del catalogo
+        apiService.getAllProducts().enqueue(object : Callback<List<Producto>> {
 
-        //Ecsample API Cal
-        apiService.getAllProducts().enqueue(object : Callback<List<Product>> {
-
-            override fun onResponse(call: Call<List<Product>>, response: Response<List<Product>>) {
+            override fun onResponse(call: Call<List<Producto>>, response: Response<List<Producto>>) {
                 if (response.isSuccessful){
                     val data = response.body()
                     data?.let { productList ->
@@ -68,15 +54,16 @@ class MainActivity : ComponentActivity() {
                 else Log.e("API_ERROR", "Error code: ${response.code()}")
             }
 
-            override fun onFailure(call: Call<List<Product>>, t: Throwable){
+            override fun onFailure(call: Call<List<Producto>>, t: Throwable){
                 Log.e("API_ERROR", "Failure: ${t.message}")
             }
 
         })
 
     }
-}
 
+}
+/*
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {
     Text(
@@ -92,3 +79,4 @@ fun GreetingPreview() {
         Greeting("Pablerio")
     }
 }
+ */

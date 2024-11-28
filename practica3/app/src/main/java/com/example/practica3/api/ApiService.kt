@@ -8,8 +8,10 @@ import retrofit2.http.Query
 
 interface ApiService {
 
-    @GET("/products")
-    fun getAllProducts(): Call<List<Product>>
+    @GET("/api/productos")
+    fun getAllProducts(): Call<List<Producto>>
+
+    /*
 
     @POST("/products/add")
     fun addProduct(
@@ -28,5 +30,7 @@ interface ApiService {
     fun deleteProduct(
         @Path("id") id: Long
     ): Call<Void>
+
+     */
 
 }

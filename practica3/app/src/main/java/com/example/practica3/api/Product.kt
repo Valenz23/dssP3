@@ -1,7 +1,7 @@
 package com.example.practica3.api
 
-data class Product (
+data class Producto (
     val id: Long,
-    val name: String,
-    val price: Double
+    val nombre: String,
+    val precio: Double
 )
