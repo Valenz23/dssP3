@@ -1,7 +1,10 @@
 package com.example.practica3
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -47,7 +50,7 @@ class MainActivity : ComponentActivity() {
                 if (response.isSuccessful){
                     val data = response.body()
                     data?.let { productList ->
-                        productAdapter = ProductAdapter(productList)
+                        productAdapter = ProductAdapter(productList, apiService, this@MainActivity)
                         recyclerView.adapter = productAdapter
                     }
                 }
@@ -60,9 +63,16 @@ class MainActivity : ComponentActivity() {
 
         })
 
+        val buttonViewCart: Button = findViewById(R.id.buttonViewCart)
+        buttonViewCart.setOnClickListener {
+            val intent = Intent(this, CartActivity::class.java)
+            startActivity(intent)
+        }
+
     }
 
 }
+
 /*
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {

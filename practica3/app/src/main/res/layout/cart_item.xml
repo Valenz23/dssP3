@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
     android:padding="8dp">
 
     <!-- contenedor para nombre y precio -->
@@ -14,7 +14,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/textViewName"
+            android:id="@+id/textViewCartName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Product Name"
@@ -25,7 +25,7 @@
             />
 
         <TextView
-            android:id="@+id/textViewPrice"
+            android:id="@+id/textViewCartPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Price"
@@ -33,12 +33,12 @@
             android:paddingBottom="4dp" />
     </LinearLayout>
 
-    <!-- boton para añadir al carrito -->
+    <!-- boton para eliminar del carrito -->
     <Button
-        android:id="@+id/buttonAddToCart"
+        android:id="@+id/buttonRemoveFromCart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Al carrito"
+        android:text="Eliminar"
         android:textSize="12sp"
         android:padding="4dp"
         android:layout_marginStart="8dp"
