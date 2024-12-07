@@ -4,30 +4,16 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
-import android.widget.Toast
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.practica3.api.ApiClient
 import com.example.practica3.api.ApiService
 import com.example.practica3.api.Producto
 import com.example.practica3.api.ProductAdapter
-import com.example.practica3.ui.theme.Practica3Theme
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.io.InputStreamReader
 
 class MainActivity : ComponentActivity() {
 
@@ -43,32 +29,40 @@ class MainActivity : ComponentActivity() {
         recyclerView = findViewById(R.id.recyclerViewProducts)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        // muestra la lista de productos del catalogo
-        apiService.getAllProducts().enqueue(object : Callback<List<Producto>> {
+        //botón Ir a carrito
+        showCart()
 
-            override fun onResponse(call: Call<List<Producto>>, response: Response<List<Producto>>) {
-                if (response.isSuccessful){
+        // llamada a la api para mostrar los productos
+        showProducts()
+
+    }
+
+    private fun showProducts() {
+        apiService.getAllProducts().enqueue(object : Callback<List<Producto>> {
+            override fun onResponse(
+                call: Call<List<Producto>>,
+                response: Response<List<Producto>>
+            ) {
+                if (response.isSuccessful) {
                     val data = response.body()
                     data?.let { productList ->
                         productAdapter = ProductAdapter(productList, apiService, this@MainActivity)
                         recyclerView.adapter = productAdapter
                     }
-                }
-                else Log.e("API_ERROR", "Error code: ${response.code()}")
+                } else Log.e("API_ERROR", "Error code: ${response.code()}")
             }
-
-            override fun onFailure(call: Call<List<Producto>>, t: Throwable){
+            override fun onFailure(call: Call<List<Producto>>, t: Throwable) {
                 Log.e("API_ERROR", "Failure: ${t.message}")
             }
-
         })
+    }
 
+    private fun showCart() {
         val buttonViewCart: Button = findViewById(R.id.buttonViewCart)
         buttonViewCart.setOnClickListener {
             val intent = Intent(this, CartActivity::class.java)
             startActivity(intent)
         }
-
     }
 
 }

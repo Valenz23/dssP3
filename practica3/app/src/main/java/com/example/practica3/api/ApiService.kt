@@ -25,4 +25,7 @@ interface ApiService {
     @POST("api/carrito/clear")
     fun clearCart(): Call<Void>
 
+    @POST("api/carrito/comprar")
+    fun checkout(): Call<Void>
+
 }
