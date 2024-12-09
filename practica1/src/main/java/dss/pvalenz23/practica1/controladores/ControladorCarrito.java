@@ -1,7 +1,6 @@
 package dss.pvalenz23.practica1.controladores;
 
 import java.io.FileNotFoundException;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -10,14 +9,10 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.itextpdf.text.DocumentException;
 
@@ -25,8 +20,8 @@ import dss.pvalenz23.practica1.modelos.Producto;
 import dss.pvalenz23.practica1.servicios.ServicioCarrito;
 import dss.pvalenz23.practica1.servicios.ServicioPDF;
 
-@RestController
-@RequestMapping("/api/carrito")
+@Controller
+@RequestMapping("carrito")
 public class ControladorCarrito {
 
     @Autowired
@@ -36,33 +31,45 @@ public class ControladorCarrito {
     private ServicioPDF servicioPDF;
 
     @GetMapping
-    public ResponseEntity<List<Producto>> getCarrito() {
-        List<Producto> productosCarrito = servicioCarrito.getCarrito();
-        return ResponseEntity.ok(productosCarrito);
+    public String getCarrito(Model model){        
+        model.addAttribute("productosCarrito", servicioCarrito.getCarrito());
+
+        
+        double total = servicioCarrito.getCarrito().isEmpty() ? 0.0 : servicioCarrito.getCarrito().stream()
+            .mapToDouble(producto -> producto.getPrecio())
+            .sum(); 
+        model.addAttribute("total", total);
+
+        return "carrito";
     }
 
-    @PostMapping("/add")
-    public ResponseEntity<String> addProductoCarrito(@RequestBody Producto producto) {
-        servicioCarrito.addProductoCarrito(producto);
-        return ResponseEntity.ok("Producto añadido al carrito.");
+    @PostMapping("add")
+    public String addProductoCarrito(@RequestParam("id") Long id, @RequestParam("nombre") String nombre, @RequestParam("precio") double precio){
+        Producto nuevo = new Producto();
+        nuevo.setId(id);
+        nuevo.setNombre(nombre);
+        nuevo.setPrecio(precio);
+        servicioCarrito.addProductoCarrito(nuevo);        
+        return "redirect:/carrito";
     }
 
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteProductoCarrito(@PathVariable Long id) {
+    @PostMapping("delete")
+    public String deleteProductoCarrito(@RequestParam("id") Long id){        
         servicioCarrito.deleteProductoCarritoById(id);
-        return ResponseEntity.ok("Producto eliminado del carrito.");
+        return "redirect:/carrito";
     }
 
-    @DeleteMapping("/clear")
-    public ResponseEntity<String> clearCarrito() {
+    @GetMapping("clear")
+    public String clearCarrito(){
         servicioCarrito.clearCarrito();
-        return ResponseEntity.ok("Carrito limpiado correctamente.");
+        return "redirect:/carrito";
     }
 
-    @GetMapping("/comprar")
-    public ResponseEntity<byte[]> generarPdfCompra() throws FileNotFoundException {
+    @GetMapping("comprar")
+    public ResponseEntity<byte[]> generarPdfCompra(Model model) throws FileNotFoundException {
+
         try {
-            byte[] pdfBytes = servicioPDF.generarPdfCompra(servicioCarrito.getCarrito());
+            byte[] pdfBytes = servicioPDF.generarPdfCompra(servicioCarrito.getCarrito());            
             servicioCarrito.clearCarrito();
 
             HttpHeaders headers = new HttpHeaders();
@@ -70,9 +77,11 @@ public class ControladorCarrito {
             headers.setContentDispositionFormData("inline", "compra.pdf");
 
             return new ResponseEntity<>(pdfBytes, headers, HttpStatus.OK);
+
         } catch (DocumentException e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+
 }

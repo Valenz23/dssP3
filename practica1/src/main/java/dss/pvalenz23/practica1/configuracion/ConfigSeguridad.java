@@ -32,14 +32,26 @@ public class ConfigSeguridad {
         http
             .authorizeHttpRequests(authorizeRequests -> {
                 authorizeRequests
-                    .anyRequest().permitAll();  // Permite el acceso a todas las rutas sin restricciones
+                    .requestMatchers("/", "/productos", "/productos/**", "/carrito", "/carrito/**").hasRole("USER")
+                    .requestMatchers("/admin", "/admin/**").hasRole("ADMIN")
+                    .requestMatchers("/h2-console/**").permitAll()  // Permitir acceso a la consola H2
+                    .requestMatchers("/api/**").permitAll()         // y a la API
+                    .anyRequest().authenticated();
             })
-            .csrf(csrf -> csrf.disable())  // Desactiva CSRF para facilitar pruebas con Postman
-            .headers(headers -> headers.frameOptions().sameOrigin()); // Permitir acceso a H2 Console
-
+            .formLogin(formLogin -> formLogin
+                .loginPage("/login")
+                .successHandler(customAuthenticationSuccessHandler())
+                .permitAll()
+            )
+            .logout(logout -> logout
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/login")
+            )
+            .csrf(csrf -> csrf.ignoringRequestMatchers("/h2-console/**", "/api/**"))
+            .headers(headers -> headers.frameOptions().sameOrigin()); 
+    
         return http.build();
     }
-
 
 	@Bean
 	public InMemoryUserDetailsManager userDetailsService() {
