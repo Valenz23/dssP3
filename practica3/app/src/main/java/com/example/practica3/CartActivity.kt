@@ -47,14 +47,6 @@ class CartActivity : ComponentActivity() {
         checkout()
     }
 
-    private fun checkout() {
-        val buttonBuy: Button = findViewById(R.id.buttonBuy)
-        buttonBuy.setOnClickListener {
-            val intent = Intent(this, ThankYouActivity::class.java)
-            startActivity(intent)
-        }
-    }
-
     private fun clearCart() {
         val buttonClearCart: Button = findViewById(R.id.buttonClearCart)
         buttonClearCart.setOnClickListener {
@@ -83,14 +75,6 @@ class CartActivity : ComponentActivity() {
     private fun updateTotal(cartItems: List<Producto>) {
         val total = cartItems.sumOf { it.precio }
         textViewTotal.text = "Total: ${"%.2f".format(total)}€"
-    }
-
-    private fun backToCatalog() {
-        val buttonViewMain: Button = findViewById(R.id.buttonViewMain)
-        buttonViewMain.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-        }
     }
 
     private fun loadCartItems(){
@@ -123,6 +107,22 @@ class CartActivity : ComponentActivity() {
         })
     }
 
+    private fun checkout() {
+        val buttonBuy: Button = findViewById(R.id.buttonBuy)
+        buttonBuy.setOnClickListener {
+            val intent = Intent(this, ThankYouActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+    }
 
+    private fun backToCatalog() {
+        val buttonViewMain: Button = findViewById(R.id.buttonViewMain)
+        buttonViewMain.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+    }
 
 }

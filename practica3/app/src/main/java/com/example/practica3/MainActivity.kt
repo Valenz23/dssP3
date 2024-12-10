@@ -32,6 +32,9 @@ class MainActivity : ComponentActivity() {
         //botón Ir a carrito
         showCart()
 
+        //boton Mapa
+        showMap()
+
         // llamada a la api para mostrar los productos
         showProducts()
 
@@ -62,6 +65,16 @@ class MainActivity : ComponentActivity() {
         buttonViewCart.setOnClickListener {
             val intent = Intent(this, CartActivity::class.java)
             startActivity(intent)
+            finish()
+        }
+    }
+
+    private fun showMap() {
+        val buttonViewMap: Button = findViewById(R.id.buttonViewMap)
+        buttonViewMap.setOnClickListener {
+            val intent = Intent(this, MapActivity::class.java)
+            startActivity(intent)
+            finish()
         }
     }
 
