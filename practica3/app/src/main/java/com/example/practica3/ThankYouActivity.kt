@@ -93,6 +93,7 @@ class ThankYouActivity : ComponentActivity() {
         buttonBackToCatalog.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
+            finish()
         }
     }
 
