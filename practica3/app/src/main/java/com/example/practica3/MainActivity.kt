@@ -1,9 +1,11 @@
 package com.example.practica3
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import android.widget.TextView
 import androidx.activity.ComponentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -25,6 +27,15 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_main)
+
+        val sharedPreferences = getSharedPreferences("AuthPreferences", Context.MODE_PRIVATE)
+        val role = sharedPreferences.getString("role", "unknown")  // Por defecto, "unknown" si no hay rol guardado
+
+        // Encontramos el TextView para mostrar el rol
+        val roleTextView: TextView = findViewById(R.id.textViewRole)
+
+        // Actualizamos el contenido del TextView con el rol
+        roleTextView.text = "Rol: $role"
 
         recyclerView = findViewById(R.id.recyclerViewProducts)
         recyclerView.layoutManager = LinearLayoutManager(this)

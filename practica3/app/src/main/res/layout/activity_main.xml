@@ -34,6 +34,16 @@
             android:backgroundTint="@color/black"
             android:textColor="@android:color/white" />
 
+        <TextView
+            android:id="@+id/textViewRole"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_gravity="center_vertical"
+            android:text="Rol: "
+            android:textColor="@android:color/black"
+            android:textSize="16sp"/>
+
     </LinearLayout>
 
     <!-- RecyclerView para los productos -->

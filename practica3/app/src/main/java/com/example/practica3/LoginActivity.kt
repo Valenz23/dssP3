@@ -1,7 +1,6 @@
 package com.example.practica3
 
-package com.example.practica3
-
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
@@ -22,38 +21,58 @@ class LoginActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        val editTextUsername: EditText = findViewById(R.id.loginUser)
-        val editTextPassword: EditText = findViewById(R.id.loginPassword)
-        val buttonLogin: Button = findViewById(R.id.butonLogin)
+        val usernameEditText: EditText = findViewById(R.id.loginUser)
+        val passwordEditText: EditText = findViewById(R.id.loginPassword)
+        val loginButton: Button = findViewById(R.id.loginButton)
 
-        buttonLogin.setOnClickListener {
-            val username = editTextUsername.text.toString()
-            val password = editTextPassword.text.toString()
+        loginButton.setOnClickListener {
+            val username = usernameEditText.text.toString().trim()
+            val password = passwordEditText.text.toString().trim()
 
-            if (username.isNotEmpty() && password.isNotEmpty()) {
-                authenticateUser(username, password)
+            if (username.isEmpty() || password.isEmpty()) {
+                Toast.makeText(this, "Por favor, ingresa usuario y contraseña", Toast.LENGTH_SHORT).show()
             } else {
-                Toast.makeText(this, "Por favor, complete todos los campos", Toast.LENGTH_SHORT).show()
+                performLogin(username, password)
             }
         }
     }
 
-    private fun authenticateUser(username: String, password: String) {
-        apiService.login(username, password).enqueue(object : Callback<Void> {
-            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+    private fun performLogin(username: String, password: String) {
+
+        // Llamada a la API con autenticación básica
+        apiService.login(username, password).enqueue(object : Callback<Map<String, String>> {
+            override fun onResponse(call: Call<Map<String, String>>, response: Response<Map<String, String>>) {
                 if (response.isSuccessful) {
-                    // Usuario autenticado, abrir pantalla de gestión
+                    saveCredentials(username, password)
+                    Toast.makeText(this@LoginActivity, "Login exitoso", Toast.LENGTH_SHORT).show()
+
+                    // Redirigir a MainActivity
                     val intent = Intent(this@LoginActivity, MainActivity::class.java)
                     startActivity(intent)
                     finish()
                 } else {
-                    Toast.makeText(this@LoginActivity, "Credenciales inválidas", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@LoginActivity, "Credenciales incorrectas", Toast.LENGTH_SHORT).show()
                 }
             }
 
-            override fun onFailure(call: Call<Void>, t: Throwable) {
-                Toast.makeText(this@LoginActivity, "Error de conexión", Toast.LENGTH_SHORT).show()
+            override fun onFailure(call: Call<Map<String, String>>, t: Throwable) {
+                Toast.makeText(this@LoginActivity, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
             }
         })
     }
+
+    private fun saveCredentials(username: String, password: String) {
+        val sharedPreferences = getSharedPreferences("AuthPreferences", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+
+        val role = if (username == "admin") {"admin"}
+        else if (username == "user") {"user"}
+        else {"unknown"}
+
+        editor.putString("username", username)
+        editor.putString("role", role)
+        editor.apply()
+    }
 }
+
+

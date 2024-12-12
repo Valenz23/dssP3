@@ -3,7 +3,6 @@ package com.example.practica3.api
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.DELETE
-import retrofit2.http.Field
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
@@ -31,8 +30,8 @@ interface ApiService {
 
     @POST("api/login")
     fun login(
-        @Query("username") username: String,
-        @Query("password") password: String
+        @Query("user") user: String,
+        @Query("pass") pass: String
     ): Call<Map<String, String>>
 
 }
