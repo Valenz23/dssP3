@@ -15,7 +15,7 @@
             android:id="@+id/textViewName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Product Name"
+            android:text="Nombre del producto"
             android:textSize="16sp"
             android:textStyle="bold"
             android:paddingBottom="4dp"
@@ -25,7 +25,7 @@
             android:id="@+id/textViewPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Price"
+            android:text="Precio"
             android:textSize="14sp"
             android:paddingBottom="4dp" />
     </LinearLayout>

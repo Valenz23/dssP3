@@ -6,7 +6,7 @@
     android:orientation="horizontal"
     android:padding="8dp">
 
-    <!-- contenedor para nombre y precio -->
+    <!-- Nombre y precio -->
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -17,32 +17,50 @@
             android:id="@+id/textViewName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Product Name"
+            android:text="Nombre del producto"
             android:textSize="16sp"
             android:textStyle="bold"
             android:paddingBottom="4dp"
-            android:textColor="@color/black"
-            />
+            android:textColor="@color/black" />
 
         <TextView
             android:id="@+id/textViewPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Price"
+            android:text="Precio"
             android:textSize="14sp"
             android:paddingBottom="4dp" />
     </LinearLayout>
 
-    <!-- boton para añadir al carrito -->
-    <Button
-        android:id="@+id/buttonAddToCart"
+    <!-- Contenedor horizontal para los botones -->
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Al carrito"
-        android:textSize="12sp"
-        android:padding="4dp"
-        android:layout_marginStart="8dp"
-        android:backgroundTint="@color/purple_500"
-        android:textColor="@android:color/white" />
+        android:orientation="horizontal"
+        android:gravity="center">
 
+        <!-- Editar (solo se muestra al admin)-->
+        <Button
+            android:id="@+id/buttonEditProduct"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Editar"
+            android:textSize="12sp"
+            android:padding="8dp"
+            android:layout_marginEnd="8dp"
+            android:visibility="gone"
+            android:backgroundTint="@color/teal_700"
+            android:textColor="@android:color/white" />
+
+        <!-- Al carrito -->
+        <Button
+            android:id="@+id/buttonAddToCart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Al carrito"
+            android:textSize="12sp"
+            android:padding="4dp"
+            android:backgroundTint="@color/orange"
+            android:textColor="@android:color/white" />
+    </LinearLayout>
 </LinearLayout>

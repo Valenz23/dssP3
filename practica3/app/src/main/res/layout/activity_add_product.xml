@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Volver al MainActivity -->
+    <Button
+        android:id="@+id/addBackToCatalog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Volver al catálogo"
+        android:layout_gravity="center"
+        android:backgroundTint="@color/teal_700"
+        android:textColor="@android:color/white"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <!-- Nombre -->
+        <EditText
+            android:id="@+id/addTextProductName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nombre del producto"
+            android:inputType="text"
+            android:gravity="center"
+            android:padding="8dp" />
+
+        <!-- Precio -->
+        <EditText
+            android:id="@+id/addTextProductPrice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Precio del producto"
+            android:padding="8dp"
+            android:gravity="center"
+            android:inputType="numberDecimal" />
+
+        <!-- Añadir -->
+        <Button
+            android:id="@+id/addButtonAddProduct"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="@color/purple_500"
+            android:text="Añadir producto"
+            android:textColor="@android:color/white" />
+
+    </LinearLayout>
+
+</LinearLayout>

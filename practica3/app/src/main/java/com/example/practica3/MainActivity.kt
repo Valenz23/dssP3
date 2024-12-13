@@ -2,8 +2,10 @@ package com.example.practica3
 
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import androidx.activity.ComponentActivity
@@ -31,11 +33,12 @@ class MainActivity : ComponentActivity() {
         val sharedPreferences = getSharedPreferences("AuthPreferences", Context.MODE_PRIVATE)
         val role = sharedPreferences.getString("role", "unknown")  // Por defecto, "unknown" si no hay rol guardado
 
+
         // Encontramos el TextView para mostrar el rol
         val roleTextView: TextView = findViewById(R.id.textViewRole)
 
         // Actualizamos el contenido del TextView con el rol
-        roleTextView.text = "Rol: $role"
+        roleTextView.text = "Hola $role"
 
         recyclerView = findViewById(R.id.recyclerViewProducts)
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -46,12 +49,42 @@ class MainActivity : ComponentActivity() {
         //boton Mapa
         showMap()
 
+        //boton logout
+        logout(sharedPreferences)
+
+        //boton "añadir producto" (solo se muestra al admin)
+        addProduct(role)
+
         // llamada a la api para mostrar los productos
-        showProducts()
+        showProducts(role)
 
     }
 
-    private fun showProducts() {
+    private fun addProduct(role: String?) {
+        val buttonAddProduct: Button = findViewById(R.id.buttonAddProduct)
+        if (role == "admin") {
+            buttonAddProduct.visibility = View.VISIBLE
+        } else {
+            buttonAddProduct.visibility = View.GONE
+        }
+        buttonAddProduct.setOnClickListener {
+            val intent = Intent(this, AddProductActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+    }
+
+    private fun logout(sharedPreferences: SharedPreferences) {
+        val buttonLogout: Button = findViewById(R.id.buttonLogout)
+        buttonLogout.setOnClickListener {
+            sharedPreferences.edit().clear().apply()
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+    }
+
+    private fun showProducts(role: String?) {
         apiService.getAllProducts().enqueue(object : Callback<List<Producto>> {
             override fun onResponse(
                 call: Call<List<Producto>>,
@@ -60,7 +93,7 @@ class MainActivity : ComponentActivity() {
                 if (response.isSuccessful) {
                     val data = response.body()
                     data?.let { productList ->
-                        productAdapter = ProductAdapter(productList, apiService, this@MainActivity)
+                        productAdapter = ProductAdapter(productList, apiService, this@MainActivity, role ?: "")
                         recyclerView.adapter = productAdapter
                     }
                 } else Log.e("API_ERROR", "Error code: ${response.code()}")

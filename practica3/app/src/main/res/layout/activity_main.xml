@@ -5,48 +5,77 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- Contenedor horizontal para los botones -->
+    <!-- Hola -->
+    <TextView
+        android:id="@+id/textViewRole"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Hola admin"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:padding="8dp"
+        android:background="@color/teal_700"
+        android:textColor="@color/white"/>
+
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp">
+        android:padding="8dp"
+        android:background="@color/fondo">
 
-        <!-- Botón para ir al carrito -->
+        <!-- Carrito -->
         <Button
             android:id="@+id/buttonViewCart"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Ir al carrito"
-            android:padding="8dp"
-            android:layout_margin="8dp"
-            android:backgroundTint="@color/purple_500"
+            android:layout_weight="1"
+            android:text="Carrito"
+            android:backgroundTint="@color/orange"
             android:textColor="@android:color/white" />
 
-        <!-- Botón para ver el mapa -->
+        <!-- Mapa -->
         <Button
             android:id="@+id/buttonViewMap"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Ver Mapa"
-            android:padding="8dp"
-            android:layout_margin="8dp"
-            android:backgroundTint="@color/black"
+            android:layout_weight="1"
+            android:text="Mapa"
+            android:backgroundTint="@color/blue"
             android:textColor="@android:color/white" />
 
-        <TextView
-            android:id="@+id/textViewRole"
-            android:layout_width="wrap_content"
+        <!-- Cerrar sesión -->
+        <Button
+            android:id="@+id/buttonLogout"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_gravity="center_vertical"
-            android:text="Rol: "
-            android:textColor="@android:color/black"
-            android:textSize="16sp"/>
+            android:layout_weight="1"
+            android:backgroundTint="@color/red"
+            android:text="Logout"
+            android:textColor="@android:color/white" />
 
     </LinearLayout>
 
-    <!-- RecyclerView para los productos -->
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:background="@color/fondo">
+
+        <!-- Añadir (solo se muestra al admin) -->
+        <Button
+            android:id="@+id/buttonAddProduct"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/purple_500"
+            android:text="Añadir producto"
+            android:textColor="@android:color/white"
+            android:visibility="gone"/>
+    </LinearLayout>
+
+    <!-- RecyclerView productos -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewProducts"
         android:layout_width="match_parent"
