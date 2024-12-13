@@ -93,7 +93,7 @@ class CartActivity : ComponentActivity() {
                         buttonBuy.backgroundTintList = ContextCompat.getColorStateList(this@CartActivity, R.color.purple_200)
                     } else {
                         buttonBuy.isEnabled = true
-                        buttonBuy.backgroundTintList = ContextCompat.getColorStateList(this@CartActivity, R.color.teal_700)
+                        buttonBuy.backgroundTintList = ContextCompat.getColorStateList(this@CartActivity, R.color.purple_500)
                     }
                 }
                 else {

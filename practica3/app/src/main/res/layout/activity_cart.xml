@@ -8,12 +8,12 @@
     <!-- volver al catálogo de productos -->
     <Button
         android:id="@+id/buttonViewMain"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Ver catálogo"
-        android:layout_gravity="start|top"
+        android:text="Volver al catálogo"
         android:padding="8dp"
         android:layout_margin="16dp"
+        android:layout_gravity="center"
         android:backgroundTint="@color/teal_700"
         android:textColor="@android:color/white" />
 
@@ -58,7 +58,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Limpiar carrito"
-            android:backgroundTint="@color/purple_500"
+            android:backgroundTint="@color/orange"
             android:textColor="@android:color/white" />
     </LinearLayout>
 
