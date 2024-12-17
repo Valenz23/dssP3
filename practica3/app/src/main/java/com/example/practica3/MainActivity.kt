@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -77,10 +78,21 @@ class MainActivity : ComponentActivity() {
     private fun logout(sharedPreferences: SharedPreferences) {
         val buttonLogout: Button = findViewById(R.id.buttonLogout)
         buttonLogout.setOnClickListener {
-            sharedPreferences.edit().clear().apply()
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
-            finish()
+            apiService.clearCart().enqueue(object : Callback<Void> {
+                override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                    if (response.isSuccessful) {
+                        sharedPreferences.edit().clear().apply()
+                        val intent = Intent(this@MainActivity, LoginActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    } else {
+                        Toast.makeText(this@MainActivity, "Error al cerrar sesión", Toast.LENGTH_SHORT).show()
+                    }
+                }
+                override fun onFailure(call: Call<Void>, t: Throwable) {
+                    Toast.makeText(this@MainActivity, "Error de red: ${t.message}", Toast.LENGTH_SHORT).show()
+                }
+            })
         }
     }
 
